@@ -1,6 +1,9 @@
 import * as React from 'react'
 import { useState, useEffect } from 'react'
 
+// Heroku用の環境変数設定
+const host = process.env.NODE_ENV === 'production' ? 'https://synchronicity-backend.herokuapp.com' : 'http://localhost:5000'
+
 type Message = {
   user: string
   text: string
@@ -15,7 +18,7 @@ const convertToMessage = (res: any): Message => ({
 
 const App: React.FC = () => {
   const [messages, update] = useState<Message[]>([])
-  const eventSource = new EventSource("http://localhost:5000/events")
+  const eventSource = new EventSource(`${host}/events`)
 
   useEffect(
     () => {
