@@ -23,10 +23,13 @@ const App: React.FC = () => {
   useEffect(
     () => {
       eventSource.onmessage = e => {
-        console.log(e.data)
-        const data = JSON.parse(e.data)
-        const message = convertToMessage(data)
-        update(_messges => [message, ..._messges])
+        try {
+          const data = JSON.parse(e.data)
+          const message = convertToMessage(data)
+          update(_messges => [message, ..._messges])
+        } catch {
+          console.log(e.data)
+        }
       }
     },
     []
@@ -53,7 +56,7 @@ const App: React.FC = () => {
             }}
           >
             <img
-              src={item.platform === "twitter" ? "../Twitter_Social_Icon_Circle_Color.png" : "../iconfinder_16_940984.png"}
+              src={item.platform === "twitter" ? "../Twitter_Social_Icon_Circle_Color.png" : "../TwitchGlitchPurple.png"}
               width={30}
               height={30}
             />
