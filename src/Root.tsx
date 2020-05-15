@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { useState, useEffect } from 'react'
+import { emoteData } from './emoteData'
 
 // Heroku用の環境変数設定
 const host = process.env.NODE_ENV === 'production' ? 'https://synchronicity-backend.herokuapp.com' : 'http://localhost:5000'
@@ -12,9 +13,21 @@ type Message = {
 
 const convertToMessage = (res: any): Message => ({
   user: res.user,
-  text: res.text,
+  text: convertToHTML(res.text),
   platform: res.platform
 })
+
+const convertToHTML = (text: string): string => {
+  return text.split(" ").map(item => {
+    for (const emote of emoteData) {
+      if (emote.name === item) { 
+        return `<img src="${emote.url}" width=${emote.width} height=${emote.height} alt=${emote.name}/>`
+      }
+    }
+
+    return `<div style="display: inline-block; margin: 8px auto;">${item}</div>`
+  }).join(" ")
+}
 
 const Root: React.FC = () => {
   const [messages, update] = useState<Message[]>([])
@@ -78,9 +91,8 @@ const Root: React.FC = () => {
             style={{
               margin: "auto 5px"
             }}
-          >
-            {item.text}
-          </div>
+            dangerouslySetInnerHTML={{__html: item.text}}
+          />
         </div>
       ))}
     </div>
