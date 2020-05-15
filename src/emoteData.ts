@@ -131,5 +131,17 @@ export const emoteData: Emote[] = [
     "height": 28,
     "width": 28,
     "url": "https://static-cdn.jtvnw.net/emoticons/v1/302051767/1.0"
+  },
+  {
+    "name": "mograJagermeister",
+    "height": 28,
+    "width": 28,
+    "url": "https://static-cdn.jtvnw.net/emoticons/v1/302159603/1.0"
+  },
+  {
+    "name": "mograJagerlogo",
+    "height": 28,
+    "width": 28,
+    "url": "https://static-cdn.jtvnw.net/emoticons/v1/302159605/1.0"
   }
 ]
