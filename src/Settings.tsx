@@ -5,6 +5,7 @@ import { settingsPath } from './paths'
 const Setting: React.FC = () => {
   const [hashTag, updateHashTag] = useState('')
   const [channel, updateChannel] = useState('')
+  const [isDisplayRT, updateIsDispalyRT] = useState(false)
 
   useEffect(
     () => {
@@ -14,6 +15,7 @@ const Setting: React.FC = () => {
 
         updateHashTag(json.hashTag)
         updateChannel(json.channel)
+        updateIsDispalyRT(json.isDisplayRT)
       }
 
       fetchHashTagAndChannel()
@@ -25,7 +27,11 @@ const Setting: React.FC = () => {
       headers: {
         'Content-Type': 'application/json; charset=utf-8'
       },
-      body: JSON.stringify({ hashTag: hashTag, channel: channel})
+      body: JSON.stringify({
+        hashTag: hashTag,
+        channel: channel,
+        isDisplayRT: isDisplayRT
+      })
     })
 
     if (res.status === 204) {
@@ -54,6 +60,11 @@ const Setting: React.FC = () => {
           value={channel}
           onChange={(e) => updateChannel(e.currentTarget.value)}
         />
+      </div>
+
+      <div>
+        <label>RTを表示させる</label>
+        <input type="checkbox" checked={isDisplayRT} onChange={(e) => updateIsDispalyRT(e.currentTarget.checked)} />
       </div>
 
       <button onClick={submitHandler}>変更する</button>
