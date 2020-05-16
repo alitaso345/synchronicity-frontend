@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useState, useEffect } from 'react'
-import { putSettingsPath } from './paths'
+import { settingsPath } from './paths'
 
 const Setting: React.FC = () => {
   const [hashTag, updateHashTag] = useState('')
@@ -8,14 +8,19 @@ const Setting: React.FC = () => {
 
   useEffect(
     () => {
-      updateHashTag('#mogra')
-      updateChannel('#mogra')
-    },
-    []
-  )
+      const fetchHashTagAndChannel = async () => {
+        const res = await fetch(settingsPath)
+        const json = await res.json()
+
+        updateHashTag(json.hashTag)
+        updateChannel(json.channel)
+      }
+
+      fetchHashTagAndChannel()
+    }, [])
 
   const submitHandler = async (): Promise<void> => {
-    const res = await fetch(putSettingsPath, {
+    const res = await fetch(settingsPath, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json; charset=utf-8'
