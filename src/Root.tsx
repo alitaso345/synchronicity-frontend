@@ -13,21 +13,9 @@ type Message = {
 
 const convertToMessage = (res: any): Message => ({
   user: res.user,
-  text: convertToHTML(res.text),
+  text: res.text,
   platform: res.platform
 })
-
-const convertToHTML = (text: string): string => {
-  return text.split(" ").map(item => {
-    for (const emote of emoteData) {
-      if (emote.name === item) { 
-        return `<img src="${emote.url}" width=${emote.width} height=${emote.height} alt=${emote.name}/>`
-      }
-    }
-
-    return `<div style="display: inline-block; margin: 8px auto;">${item}</div>`
-  }).join(" ")
-}
 
 const Root: React.FC = () => {
   const [messages, update] = useState<Message[]>([])
@@ -49,7 +37,10 @@ const Root: React.FC = () => {
   )
 
   return (
-    <div className="timeline-container">
+    <div
+      className="timeline-container" 
+      style={{minWidth: "200px"}}
+    >
       {messages.map((item, index) => (
         <div
           className="message-item"
@@ -57,42 +48,41 @@ const Root: React.FC = () => {
           style={{
             display: "flex",
             alignItems: "center",
-            marginBottom: "5px"
+            flexWrap: "wrap",
+            width: "100%",
+            margin: "5px auto"
           }}
         >
-          <div
+          <span
             className="platform-icon"
-            style={{
-              margin: "auto 5px",
-              display: "flex",
-              justifyContent: "center"
-            }}
+            style={{marginRight: "3px"}}
           >
             <img
               src={item.platform === "twitter" ? "../Twitter_Social_Icon_Circle_Color.png" : "../TwitchGlitchPurple.png"}
               width={30}
               height={30}
             />
-          </div>
+          </span>
 
-          <div
+          <span
             className="user"
             style={{
-              margin: "auto 5px",
               color: `${item.platform === "twitter" ? "#00ACEE" : "#6441a5"}`,
               fontFamily: `Arial, “ヒラギノ角ゴ Pro W3”, “Hiragino Kaku Gothic Pro”, Osaka, メイリオ, Meiryo, “ＭＳ Ｐゴシック”, “MS PGothic”, sans-serif`
             }}
           >
             {item.user}
-          </div>
-          <span>:</span>
-          <div
-            className="text"
-            style={{
-              margin: "auto 5px"
-            }}
-            dangerouslySetInnerHTML={{__html: item.text}}
-          />
+          </span>
+          <span>: </span>
+          {item.text.split(" ").map((t, i) => {
+            for (const emote of emoteData) {
+              if (emote.name === t) {
+                return <img key={i} src={emote.url} width={emote.width} height={emote.height} alt={emote.name} />
+              }
+            }
+
+            return <span key={i}>{t}</span>
+          })}
         </div>
       ))}
     </div>
