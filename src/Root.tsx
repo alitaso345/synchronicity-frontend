@@ -18,7 +18,6 @@ const convertToMessage = (res: any): Message => ({
 })
 
 const Root: React.FC = () => {
-  //const [messages, update] = useState<Message[]>([])
   const [messages, update] = useState<Message[]>([])
   const eventSource = new EventSource(`${host}/events`)
 
@@ -28,7 +27,12 @@ const Root: React.FC = () => {
         try {
           const data = JSON.parse(e.data)
           const message = convertToMessage(data)
-          update(_messges => [message, ..._messges])
+          update(_messages => {
+            if (_messages.length > 50) {
+              _messages.pop()
+            }
+            return [message, ..._messages]
+          })
         } catch {
           console.log(e.data)
         }
