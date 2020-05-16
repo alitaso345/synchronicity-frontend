@@ -67,6 +67,10 @@ const Setting: React.FC = () => {
         <input type="checkbox" checked={isDisplayRT} onChange={(e) => updateIsDispalyRT(e.currentTarget.checked)} />
       </div>
 
+      <div>
+        <a href="/">トップページへ戻る</a>
+      </div>
+
       <button onClick={submitHandler}>変更する</button>
     </div>
   )

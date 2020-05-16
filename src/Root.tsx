@@ -18,6 +18,7 @@ const convertToMessage = (res: any): Message => ({
 })
 
 const Root: React.FC = () => {
+  //const [messages, update] = useState<Message[]>([])
   const [messages, update] = useState<Message[]>([])
   const eventSource = new EventSource(`${host}/events`)
 
@@ -39,18 +40,16 @@ const Root: React.FC = () => {
   return (
     <div
       className="timeline-container" 
-      style={{minWidth: "200px"}}
+      style={{minWidth: "200px", width: "100%"}}
     >
       {messages.map((item, index) => (
         <div
           className="message-item"
           key={index}
           style={{
-            display: "flex",
-            alignItems: "center",
-            flexWrap: "wrap",
             width: "100%",
-            margin: "5px auto"
+            margin: "5px auto",
+            wordBreak: "break-all"
           }}
         >
           <span
@@ -59,8 +58,8 @@ const Root: React.FC = () => {
           >
             <img
               src={item.platform === "twitter" ? "../Twitter_Social_Icon_Circle_Color.png" : "../TwitchGlitchPurple.png"}
-              width={30}
-              height={30}
+              width={18}
+              height={18}
             />
           </span>
 
