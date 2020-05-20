@@ -19,10 +19,11 @@ const convertToMessage = (res: any): Message => ({
 
 const Root: React.FC = () => {
   const [messages, update] = useState<Message[]>([])
-  const eventSource = new EventSource(`${host}/events`)
 
   useEffect(
     () => {
+      const eventSource = new EventSource(`${host}/events`)
+
       eventSource.onmessage = e => {
         try {
           const data = JSON.parse(e.data)
